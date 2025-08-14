@@ -1,0 +1,22 @@
+<svg width="340" height="100" viewBox="0 0 340 100" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .logo-text { font-family: Arial, sans-serif; font-weight: bold; }
+      .logo-subtitle { font-family: Arial, sans-serif; font-weight: normal; }
+    </style>
+  </defs>
+  
+  <!-- Texto principal "cm" -->
+  <text x="170" y="40" text-anchor="middle" class="logo-text" fill="#374151" font-size="36">cm</text>
+  
+  <!-- Expoente "²" - mais compacto e proporcional -->
+  <text x="185" y="22" text-anchor="middle" class="logo-text" fill="#374151" font-size="18">²</text>
+  
+  <!-- Linha horizontal com medidas -->
+  <line x1="120" y1="55" x2="220" y2="55" stroke="#374151" stroke-width="2"/>
+  <line x1="120" y1="50" x2="120" y2="60" stroke="#374151" stroke-width="2"/>
+  <line x1="220" y1="50" x2="220" y2="60" stroke="#374151" stroke-width="2"/>
+  
+  <!-- Texto inferior "CONSTRUÇÕES" -->
+  <text x="170" y="80" text-anchor="middle" class="logo-subtitle" fill="#374151" font-size="14" letter-spacing="1">CONSTRUÇÕES</text>
+</svg>
