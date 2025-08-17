@@ -44,10 +44,10 @@ export function ScrollToTop() {
           className={cn(
             "fixed bottom-8 right-8 z-50",
             "w-12 h-12 rounded-full shadow-lg",
-            "bg-primary hover:bg-primary/90 text-white",
+            "bg-[#6D6D6D] hover:bg-[#5A5A5A] text-white",
             "transition-all duration-300 ease-in-out",
             "animate-in slide-in-from-bottom-4",
-            "focus:ring-2 focus:ring-primary focus:ring-offset-2"
+            "focus:ring-2 focus:ring-[#6D6D6D] focus:ring-offset-2"
           )}
           aria-label="Voltar ao topo"
         >
