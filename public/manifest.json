@@ -15,19 +15,13 @@
       "src": "/imagens/logo-cm2.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
     },
     {
       "src": "/imagens/logo-cm2.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "/imagens/logo-cm2.png",
-      "sizes": "180x180",
-      "type": "image/png",
-      "purpose": "apple touch"
+      "purpose": "any"
     }
   ],
   "shortcuts": [
@@ -35,55 +29,19 @@
       "name": "Sobre Nós",
       "short_name": "Sobre",
       "description": "Conheça mais sobre a CM² Construções",
-      "url": "/#sobre",
-      "icons": [
-        {
-          "src": "/imagens/logo-cm2.png",
-          "sizes": "96x96"
-        }
-      ]
+      "url": "/#sobre"
     },
     {
       "name": "Portfólio",
       "short_name": "Portfólio",
       "description": "Veja nossos projetos realizados",
-      "url": "/#portfolio",
-      "icons": [
-        {
-          "src": "/imagens/logo-cm2.png",
-          "sizes": "96x96"
-        }
-      ]
+      "url": "/#portfolio"
     },
     {
       "name": "Contato",
       "short_name": "Contato",
       "description": "Entre em contato conosco",
-      "url": "/#contato",
-      "icons": [
-        {
-          "src": "/imagens/logo-cm2.png",
-          "sizes": "96x96"
-        }
-      ]
+      "url": "/#contato"
     }
-  ],
-  "screenshots": [
-    {
-      "src": "/imagens/logo-cm2.png",
-      "sizes": "1280x720",
-      "type": "image/png",
-      "form_factor": "wide",
-      "label": "Tela inicial da CM² Construções"
-    },
-    {
-      "src": "/imagens/logo-cm2.png",
-      "sizes": "750x1334",
-      "type": "image/png",
-      "form_factor": "narrow",
-      "label": "Tela inicial da CM² Construções (Mobile)"
-    }
-  ],
-  "related_applications": [],
-  "prefer_related_applications": false
+  ]
 }

@@ -97,9 +97,6 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="//wa.me" />
         <link rel="dns-prefetch" href="//instagram.com" />
         
-        {/* Preload de recursos críticos */}
-        <link rel="preload" href="/imagens/logo-cm2.png" as="image" />
-        
         {/* Structured Data */}
         <script
           type="application/ld+json"

@@ -315,13 +315,6 @@ h1, h2, h3, h4, h5, h6 {
     overflow: hidden !important;
   }
   
-  /* Ajustar altura específica para mobile */
-  .mobile-menu-panel {
-    height: 100vh !important;
-    max-height: 100vh !important;
-    min-height: 100vh !important;
-  }
-  
   /* Forçar layout flexbox */
   .mobile-menu-panel > div {
     display: flex !important;
@@ -345,7 +338,7 @@ h1, h2, h3, h4, h5, h6 {
     justify-content: center !important;
     overflow: hidden !important;
     padding-top: 1rem !important;
-    padding-bottom: 2rem !important;
+    padding-bottom: 1rem !important;
     margin-top: 0 !important;
   }
   
@@ -369,28 +362,4 @@ h1, h2, h3, h4, h5, h6 {
     height: auto !important;
     width: 100% !important;
   }
-}
-
-/* Regras adicionais para garantir que o menu seja sempre visível */
-.mobile-menu-panel,
-.mobile-menu-panel > div,
-.mobile-menu-panel nav,
-.mobile-menu-panel .flex-1 {
-  height: 100vh !important;
-  max-height: 100vh !important;
-  min-height: 100vh !important;
-  overflow: hidden !important;
-}
-
-/* Forçar que o menu ocupe toda a tela */
-.mobile-menu-panel {
-  position: fixed !important;
-  top: 0 !important;
-  right: 0 !important;
-  width: 20rem !important;
-  height: 100vh !important;
-  max-height: 100vh !important;
-  min-height: 100vh !important;
-  overflow: hidden !important;
-  z-index: 100000 !important;
 }
