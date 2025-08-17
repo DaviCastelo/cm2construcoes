@@ -21,9 +21,12 @@ export function ScrollAnimation({
   className,
 }: ScrollAnimationProps) {
   const [isVisible, setIsVisible] = useState(false)
+  const [isMounted, setIsMounted] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
+    setIsMounted(true)
+    
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -53,6 +56,15 @@ export function ScrollAnimation({
     "fade-right": "animate-fade-right",
     "scale": "animate-scale",
     "slide-up": "animate-slide-up",
+  }
+
+  // Não renderizar animações até o componente estar montado no cliente
+  if (!isMounted) {
+    return (
+      <div className={cn("transition-all duration-700 ease-out", className)}>
+        {children}
+      </div>
+    )
   }
 
   return (

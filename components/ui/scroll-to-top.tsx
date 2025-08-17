@@ -7,8 +7,11 @@ import { cn } from "@/lib/utils"
 
 export function ScrollToTop() {
   const [isVisible, setIsVisible] = useState(false)
+  const [isMounted, setIsMounted] = useState(false)
 
   useEffect(() => {
+    setIsMounted(true)
+    
     const toggleVisibility = () => {
       if (window.pageYOffset > 300) {
         setIsVisible(true)
@@ -28,6 +31,11 @@ export function ScrollToTop() {
     })
   }
 
+  // Não renderizar nada até o componente estar montado no cliente
+  if (!isMounted) {
+    return null
+  }
+
   return (
     <>
       {isVisible && (
@@ -43,7 +51,7 @@ export function ScrollToTop() {
           )}
           aria-label="Voltar ao topo"
         >
-          <MessageCircle className="w-6 h-6" />
+          {isMounted && <MessageCircle className="w-6 h-6" />}
         </Button>
       )}
     </>

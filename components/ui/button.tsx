@@ -40,19 +40,44 @@ function Button({
   variant,
   size,
   asChild = false,
+  children,
   ...props
 }: React.ComponentProps<"button"> &
   VariantProps<typeof buttonVariants> & {
     asChild?: boolean
   }) {
+  const [isMounted, setIsMounted] = React.useState(false)
+  
+  React.useEffect(() => {
+    setIsMounted(true)
+  }, [])
+
   const Comp = asChild ? Slot : "button"
+
+  // Não renderizar SVGs até o componente estar montado no cliente
+  const safeChildren = React.useMemo(() => {
+    if (!isMounted) {
+      // Se não estiver montado, renderiza apenas texto ou elementos básicos
+      if (typeof children === 'string') {
+        return children
+      }
+      if (React.isValidElement(children) && children.type === 'span') {
+        return children
+      }
+      // Para outros elementos, renderiza um placeholder
+      return <span className="opacity-0">{children}</span>
+    }
+    return children
+  }, [children, isMounted])
 
   return (
     <Comp
       data-slot="button"
       className={cn(buttonVariants({ variant, size, className }))}
       {...props}
-    />
+    >
+      {safeChildren}
+    </Comp>
   )
 }
 

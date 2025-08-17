@@ -84,6 +84,12 @@ export function ValidatedInput({
 }: ValidatedInputProps) {
   const [error, setError] = useState<string | null>(null)
   const [touched, setTouched] = useState(false)
+  const [isMounted, setIsMounted] = useState(false)
+
+  // Evitar problemas de hidratação
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
 
   useEffect(() => {
     if (touched) {
@@ -107,7 +113,7 @@ export function ValidatedInput({
   }
 
   const getStatusIcon = () => {
-    if (!touched) return null
+    if (!touched || !isMounted) return null
     if (error) return <XCircle className="w-5 h-5 text-red-500" />
     if (value.trim()) return <CheckCircle className="w-5 h-5 text-green-500" />
     return null
@@ -162,7 +168,7 @@ export function ValidatedInput({
 
       {error && (
         <div className="flex items-center space-x-2 text-sm text-red-600">
-          <AlertCircle className="w-4 h-4" />
+          {isMounted && <AlertCircle className="w-4 h-4" />}
           <span>{error}</span>
         </div>
       )}
@@ -204,6 +210,12 @@ export function FormValidation({
   const [formData, setFormData] = useState<FormData>(initialData)
   const [errors, setErrors] = useState<ValidationErrors>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isMounted, setIsMounted] = useState(false)
+
+  // Evitar problemas de hidratação
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
 
   const validateForm = (): boolean => {
     const newErrors: ValidationErrors = {}
@@ -248,6 +260,31 @@ export function FormValidation({
     errors,
     updateField,
     isSubmitting
+  }
+
+  // Não renderizar o formulário até o componente estar montado no cliente
+  if (!isMounted) {
+    return (
+      <div className={cn("space-y-6", className)}>
+        <div className="animate-pulse">
+          <div className="h-4 bg-gray-200 rounded mb-2"></div>
+          <div className="h-10 bg-gray-200 rounded"></div>
+        </div>
+        <div className="animate-pulse">
+          <div className="h-4 bg-gray-200 rounded mb-2"></div>
+          <div className="h-10 bg-gray-200 rounded"></div>
+        </div>
+        <div className="animate-pulse">
+          <div className="h-4 bg-gray-200 rounded mb-2"></div>
+          <div className="h-10 bg-gray-200 rounded"></div>
+        </div>
+        <div className="animate-pulse">
+          <div className="h-4 bg-gray-200 rounded mb-2"></div>
+          <div className="h-10 bg-gray-200 rounded"></div>
+        </div>
+        <div className="h-10 bg-gray-200 rounded"></div>
+      </div>
+    )
   }
 
   return (

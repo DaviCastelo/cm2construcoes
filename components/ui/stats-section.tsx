@@ -38,9 +38,12 @@ const stats: StatItem[] = [
 function AnimatedCounter({ target, suffix = "", duration = 2000 }: { target: number; suffix?: string; duration?: number }) {
   const [count, setCount] = useState(0)
   const [hasStarted, setHasStarted] = useState(false)
+  const [isMounted, setIsMounted] = useState(false)
   const ref = useRef<HTMLSpanElement>(null)
 
   useEffect(() => {
+    setIsMounted(true)
+    
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting && !hasStarted) {
@@ -75,6 +78,15 @@ function AnimatedCounter({ target, suffix = "", duration = 2000 }: { target: num
       }
     }
   }, [target, duration, hasStarted])
+
+  // Não renderizar contador animado até o componente estar montado no cliente
+  if (!isMounted) {
+    return (
+      <span className="text-4xl md:text-5xl font-bold text-primary">
+        {target.toLocaleString()}{suffix}
+      </span>
+    )
+  }
 
   return (
     <span ref={ref} className="text-4xl md:text-5xl font-bold text-primary">
