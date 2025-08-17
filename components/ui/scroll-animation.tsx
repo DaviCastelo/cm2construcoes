@@ -1,7 +1,8 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useState } from "react"
 import { cn } from "@/lib/utils"
+import { config } from "@/lib/config"
 
 interface ScrollAnimationProps {
   children: React.ReactNode
@@ -22,33 +23,23 @@ export function ScrollAnimation({
 }: ScrollAnimationProps) {
   const [isVisible, setIsVisible] = useState(false)
   const [isMounted, setIsMounted] = useState(false)
-  const ref = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     setIsMounted(true)
     
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true)
-        }
-      },
-      {
-        threshold,
-        rootMargin: "0px 0px -50px 0px",
-      }
-    )
-
-    if (ref.current) {
-      observer.observe(ref.current)
+    // Em produção, mostrar imediatamente
+    if (config.isProduction) {
+      setIsVisible(true)
+      return
     }
+    
+    // Animação simples sem IntersectionObserver
+    const timer = setTimeout(() => {
+      setIsVisible(true)
+    }, delay + 100) // Delay + pequeno offset
 
-    return () => {
-      if (ref.current) {
-        observer.unobserve(ref.current)
-      }
-    }
-  }, [threshold])
+    return () => clearTimeout(timer)
+  }, [delay])
 
   const animationClasses = {
     "fade-up": "animate-fade-up",
@@ -58,8 +49,17 @@ export function ScrollAnimation({
     "slide-up": "animate-slide-up",
   }
 
-  // Não renderizar animações até o componente estar montado no cliente
+  // Fallback para SSR
   if (!isMounted) {
+    return (
+      <div className={cn("transition-all duration-700 ease-out opacity-0", className)}>
+        {children}
+      </div>
+    )
+  }
+
+  // Em produção, mostrar sem animação
+  if (config.isProduction) {
     return (
       <div className={cn("transition-all duration-700 ease-out", className)}>
         {children}
@@ -69,7 +69,6 @@ export function ScrollAnimation({
 
   return (
     <div
-      ref={ref}
       className={cn(
         "transition-all duration-700 ease-out",
         isVisible && animationClasses[animation],

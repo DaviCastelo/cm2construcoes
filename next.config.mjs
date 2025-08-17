@@ -19,6 +19,11 @@ const nextConfig = {
   poweredByHeader: false,
   compress: true,
   generateEtags: false,
+  
+  // Configurações para resolver problemas de produção
+  swcMinify: true,
+  reactStrictMode: true,
+  
   // Configurações de cache para melhor performance
   async headers() {
     return [
@@ -80,6 +85,10 @@ const nextConfig = {
           },
         },
       }
+      
+      // Desabilitar algumas otimizações que podem causar problemas
+      config.optimization.minimize = true
+      config.optimization.minimizer = config.optimization.minimizer || []
     }
     
     // Otimizações para SVG
@@ -87,6 +96,14 @@ const nextConfig = {
       test: /\.svg$/,
       use: ['@svgr/webpack'],
     })
+    
+    // Resolver problemas de polyfills
+    config.resolve.fallback = {
+      ...config.resolve.fallback,
+      fs: false,
+      net: false,
+      tls: false,
+    }
     
     return config
   },
