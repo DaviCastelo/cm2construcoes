@@ -95,7 +95,7 @@ export default function HomePage() {
                 alt="CM² Construções"
                 width={240}
                 height={120}
-                className="h-22 sm:h-38 md:h-38 w-auto"
+                className="h-28 sm:h-32 md:h-36 w-auto"
               />
             </button>
           </div>
