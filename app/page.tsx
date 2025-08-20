@@ -82,20 +82,20 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-white">
       {/* Header */}
-      <header className="fixed top-0 w-full bg-white/95 backdrop-blur-sm border-b border-[#9ca3af] z-50 safe-area-top">
-        <div className="container mx-auto px-4 py-3 sm:py-4 flex items-center justify-between">
-          <div className="flex items-center">
-            <button
-              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-              className="hover:opacity-80 transition-opacity"
-              aria-label="Voltar ao topo da página"
-            >
+             <header className="fixed top-0 w-full bg-white/95 backdrop-blur-sm border-b border-[#9ca3af] z-50 safe-area-top">
+         <div className="container mx-auto px-2 py-2 flex items-center justify-between">
+                     <div className="flex items-center -ml-2">
+             <button
+               onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+               className="hover:opacity-80 transition-opacity"
+               aria-label="Voltar ao topo da página"
+             >
               <Image
                 src="/imagens/logo-cm2.png"
                 alt="CM² Construções"
                 width={240}
                 height={120}
-                className="h-28 sm:h-32 md:h-36 w-auto"
+                className="h-26 sm:h-32 md:h-36 w-auto"
               />
             </button>
           </div>
