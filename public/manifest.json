@@ -12,13 +12,13 @@
   "categories": ["business", "construction", "architecture"],
   "icons": [
     {
-      "src": "/imagens/logo-cm2.png",
+      "src": "/imagens/logocm2.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/imagens/logo-cm2.png",
+      "src": "/imagens/logocm2.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"

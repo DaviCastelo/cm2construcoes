@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     siteName: 'CM² Construções',
     images: [
       {
-        url: '/imagens/logo-cm2.png',
+        url: '/imagens/logocm2.png',
         width: 1200,
         height: 630,
         alt: 'CM² Construções - Logo',
@@ -45,7 +45,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: "CM² Construções - Transformando Espaços com Excelência",
     description: "Empresa especializada em construções e reformas de alto padrão no Ceará.",
-    images: ['/imagens/logo-cm2.png'],
+            images: ['/imagens/logocm2.png'],
   },
   robots: {
     index: true,
@@ -86,9 +86,9 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         
         {/* Favicon */}
-        <link rel="icon" type="image/png" sizes="32x32" href="/imagens/logo-cm2.png" />
-        <link rel="icon" type="image/png" sizes="16x16" href="/imagens/logo-cm2.png" />
-        <link rel="apple-touch-icon" sizes="180x180" href="/imagens/logo-cm2.png" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/imagens/logocm2.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/imagens/logocm2.png" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/imagens/logocm2.png" />
         
         {/* Manifest para PWA */}
         <link rel="manifest" href="/manifest.json" />
@@ -121,7 +121,7 @@ export default function RootLayout({
               },
               "openingHours": "Mo-Fr 08:00-18:00",
               "priceRange": "$$",
-              "image": "/imagens/logo-cm2.png",
+              "image": "/imagens/logocm2.png",
               "sameAs": [
                 "https://instagram.com/cm2construcoes"
               ]

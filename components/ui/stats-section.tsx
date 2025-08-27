@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react"
 import { Card, CardContent } from "@/components/ui/card"
-import { config } from "@/lib/config"
 
 interface StatItem {
   number: number
@@ -43,13 +42,7 @@ function AnimatedCounter({ target, suffix = "", duration = 2000 }: { target: num
   useEffect(() => {
     setIsMounted(true)
     
-    // Em produção, mostrar o número diretamente
-    if (config.isProduction) {
-      setCount(target)
-      return
-    }
-    
-    // Animação simples sem IntersectionObserver
+    // Animação simples
     const timer = setTimeout(() => {
       let currentCount = 0
       const increment = target / (duration / 16) // 60fps
@@ -153,7 +146,7 @@ export function StatsSection() {
               key={stat.label}
               className="h-full"
               style={{ 
-                animationDelay: config.isProduction ? '0ms' : `${index * 200}ms` 
+                animationDelay: `${index * 200}ms` 
               }}
             >
               <Card className="h-full border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 bg-white">

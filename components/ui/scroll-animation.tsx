@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react"
 import { cn } from "@/lib/utils"
-import { config } from "@/lib/config"
 
 interface ScrollAnimationProps {
   children: React.ReactNode
@@ -27,12 +26,6 @@ export function ScrollAnimation({
   useEffect(() => {
     setIsMounted(true)
     
-    // Em produção, mostrar imediatamente
-    if (config.isProduction) {
-      setIsVisible(true)
-      return
-    }
-    
     // Animação simples sem IntersectionObserver
     const timer = setTimeout(() => {
       setIsVisible(true)
@@ -53,15 +46,6 @@ export function ScrollAnimation({
   if (!isMounted) {
     return (
       <div className={cn("transition-all duration-700 ease-out opacity-0", className)}>
-        {children}
-      </div>
-    )
-  }
-
-  // Em produção, mostrar sem animação
-  if (config.isProduction) {
-    return (
-      <div className={cn("transition-all duration-700 ease-out", className)}>
         {children}
       </div>
     )

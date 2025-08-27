@@ -79,23 +79,37 @@ export default function HomePage() {
     mensagem: { required: true, minLength: 10 }
   }
 
+  // Não renderizar nada até o componente estar montado no cliente
+  if (!isMounted) {
+    return (
+      <div className="min-h-screen bg-white">
+        <div className="flex items-center justify-center h-screen">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-[#374151] mx-auto mb-4"></div>
+            <p className="text-[#374151] text-lg">Carregando...</p>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="min-h-screen bg-white">
       {/* Header */}
-             <header className="fixed top-0 w-full bg-white/95 backdrop-blur-sm border-b border-[#9ca3af] z-50 safe-area-top">
-         <div className="container mx-auto px-2 py-2 flex items-center justify-between">
-                     <div className="flex items-center -ml-2">
-             <button
-               onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-               className="hover:opacity-80 transition-opacity"
-               aria-label="Voltar ao topo da página"
-             >
+      <header className="fixed top-0 w-full bg-white/95 backdrop-blur-sm border-b border-[#9ca3af] z-50 safe-area-top">
+        <div className="container mx-auto px-2 py-2 flex items-center justify-between">
+          <div className="flex items-center ml-2">
+            <button
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+              className="hover:opacity-80 transition-opacity"
+              aria-label="Voltar ao topo da página"
+            >
               <Image
-                src="/imagens/logo-cm2.png"
+                src="/imagens/logocm2.png"
                 alt="CM² Construções"
                 width={240}
                 height={120}
-                className="h-26 sm:h-32 md:h-36 w-auto"
+                className="h-20 sm:h-24 md:h-28 w-auto"
               />
             </button>
           </div>
@@ -204,7 +218,7 @@ export default function HomePage() {
               <Card className="text-center card-mobile hover:shadow-lg transition-all duration-300 hover:-translate-y-2">
                 <CardContent className="pt-6">
                   <div className="w-16 h-16 bg-[#374151] rounded-full flex items-center justify-center mx-auto mb-6">
-                    {isMounted && <Wrench className="w-8 h-8 text-white" />}
+                    <Wrench className="w-8 h-8 text-white" />
                   </div>
                   <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-[#374151] mb-4">Qualidade de Mão de Obra</h3>
                   <p className="text-base sm:text-lg md:text-xl text-[#9ca3af]">
@@ -219,7 +233,7 @@ export default function HomePage() {
               <Card className="text-center card-mobile hover:shadow-lg transition-all duration-300 hover:-translate-y-2">
                 <CardContent className="pt-6">
                   <div className="w-16 h-16 bg-[#374151] rounded-full flex items-center justify-center mx-auto mb-6">
-                    {isMounted && <Clock className="w-8 h-8 text-white" />}
+                    <Clock className="w-8 h-8 text-white" />
                   </div>
                   <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-[#374151] mb-4">Respeito aos Prazos</h3>
                   <p className="text-base sm:text-lg md:text-xl text-[#9ca3af]">
@@ -233,7 +247,7 @@ export default function HomePage() {
               <Card className="text-center card-mobile hover:shadow-lg transition-all duration-300 hover:-translate-y-2">
                 <CardContent className="pt-6">
                   <div className="w-16 h-16 bg-[#374151] rounded-full flex items-center justify-center mx-auto mb-6">
-                    {isMounted && <HandHeart className="w-8 h-8 text-white" />}
+                    <HandHeart className="w-8 h-8 text-white" />
                   </div>
                   <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-[#374151] mb-4">Atendimento Pós-Obra</h3>
                   <p className="text-base sm:text-lg md:text-xl text-[#9ca3af]">
@@ -490,28 +504,28 @@ export default function HomePage() {
                 <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#374151] mb-6">Informações de Contato</h3>
                 <div className="space-y-6">
                   <div className="flex items-center">
-                    {isMounted && <Phone className="w-6 h-6 text-[#374151] mr-4 flex-shrink-0" />}
+                    <Phone className="w-6 h-6 text-[#374151] mr-4 flex-shrink-0" />
                     <div>
                       <p className="font-semibold text-[#374151]">Telefone</p>
                       <p className="text-[#9ca3af]">(85) 99973-3454</p>
                     </div>
                   </div>
                   <div className="flex items-center">
-                    {isMounted && <MessageCircle className="w-6 h-6 text-[#374151] mr-4 flex-shrink-0" />}
+                    <MessageCircle className="w-6 h-6 text-[#374151] mr-4 flex-shrink-0" />
                     <div>
                       <p className="font-semibold text-[#374151]">WhatsApp</p>
                       <p className="text-[#9ca3af]">(85) 99973-3454</p>
                     </div>
                   </div>
                   <div className="flex items-center">
-                    {isMounted && <Instagram className="w-6 h-6 text-[#374151] mr-4 flex-shrink-0" />}
+                    <Instagram className="w-6 h-6 text-[#374151] mr-4 flex-shrink-0" />
                     <div>
                       <p className="font-semibold text-[#374151]">Instagram</p>
                       <a
                         href="https://instagram.com/cm2construcoes"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#374151] hover:underline"
+                        className="text-white hover:underline"
                       >
                         @cm2construcoes
                       </a>
@@ -593,7 +607,7 @@ export default function HomePage() {
                 aria-label="Voltar ao topo da página"
               >
                 <Image
-                  src="/imagens/logo-cm2.png"
+                  src="/imagens/logocm2.png"
                   alt="CM² Construções"
                   width={200}
                   height={60}
@@ -634,7 +648,7 @@ export default function HomePage() {
                     rel="noopener noreferrer"
                     className="text-white hover:text-[#9ca3af] transition-colors"
                   >
-                    {isMounted && <Instagram className="w-6 h-6" />}
+                    <Instagram className="w-6 h-6" />
                   </a>
                 </div>
               </div>
