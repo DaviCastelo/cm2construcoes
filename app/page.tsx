@@ -16,6 +16,7 @@ import { ScrollToTop } from "@/components/ui/scroll-to-top"
 
 export default function HomePage() {
   const [showProcesso, setShowProcesso] = useState(false)
+  const [selectedRegion, setSelectedRegion] = useState<string | null>(null)
   const [isMounted, setIsMounted] = useState(false)
   const [formData, setFormData] = useState({
     nome: "",
@@ -23,6 +24,37 @@ export default function HomePage() {
     email: "",
     mensagem: "",
   })
+
+  // Dados dos projetos organizados por região
+  const projectsByRegion = {
+    "Fortaleza": [
+      {
+        id: 1,
+        title: "Casa Moderna com Piscina",
+        description: "Projeto residencial de alto padrão com acabamentos sofisticados e integração perfeita entre ambientes internos e externos.",
+        image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-XScuQotuIsktEqkMGEfCMFa8Z84dl4.png",
+        badge: "Alpha Fortaleza"
+      }
+    ],
+    "Eusebio": [
+      {
+        id: 2,
+        title: "Ampliação Residencial",
+        description: "Projeto de ampliação que harmoniza perfeitamente com a arquitetura existente, criando espaços adicionais sem comprometer o design original.",
+        image: "/imagens/IMG_1248 (1).png",
+        badge: "Cidade Alpha"
+      }
+    ],
+    "Regiões diversas": [
+      {
+        id: 3,
+        title: "Reforma Completa",
+        description: "Transformação completa de residência com foco em modernidade e funcionalidade, mantendo a essência do projeto original.",
+        image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-6bTeRyjkDXhMj73Q5oxY09bIuZDR3K.png",
+        badge: "Terras Alphaville"
+      }
+    ]
+  }
 
   // Evitar problemas de hidratação
   useEffect(() => {
@@ -194,7 +226,7 @@ export default function HomePage() {
               </div>
               <div className="relative">
                 <Image
-                  src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-XScuQotuIsktEqkMGEfCMFa8Z84dl4.png"
+                  src="/imagens/IMG_1252 (1).png"
                   alt="Equipe CM² Construções"
                   width={500}
                   height={400}
@@ -211,7 +243,7 @@ export default function HomePage() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <ScrollAnimation animation="fade-up" className="text-center mb-12 sm:mb-16">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#374151] mb-4">Nossos Diferenciais</h2>
-            <p className="text-lg sm:text-xl md:text-2xl text-[#9ca3af]">O que nos torna únicos no mercado</p>
+            <p className="text-lg sm:text-xl md:text-2xl text-[#9ca3af]">O que nos torna únicos no mercado.</p>
           </ScrollAnimation>
           <div className="grid grid-mobile">
             <ScrollAnimation animation="fade-up" delay={200}>
@@ -273,14 +305,20 @@ export default function HomePage() {
             <div className="flex flex-col sm:flex-row justify-center gap-4 sm:gap-0">
               <Button
                 variant={showProcesso ? "default" : "outline"}
-                onClick={() => setShowProcesso(false)}
+                onClick={() => {
+                  setShowProcesso(false)
+                  setSelectedRegion(null)
+                }}
                 className="btn-mobile sm:mr-4"
               >
                 Projetos Concluídos
               </Button>
               <Button
                 variant={showProcesso ? "outline" : "default"}
-                onClick={() => setShowProcesso(true)}
+                onClick={() => {
+                  setShowProcesso(true)
+                  setSelectedRegion(null)
+                }}
                 className="btn-mobile"
               >
                 Processo Construtivo
@@ -291,77 +329,130 @@ export default function HomePage() {
           <div className="grid grid-mobile">
             {!showProcesso ? (
               <>
-                <ScrollAnimation animation="scale" delay={200}>
-                  <Card className="overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
-                    <div className="relative">
-                      <Image
-                        src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-XScuQotuIsktEqkMGEfCMFa8Z84dl4.png"
-                        alt="Projeto Alpha Fortaleza"
-                        width={400}
-                        height={300}
-                        className="w-full h-48 sm:h-56 object-cover"
-                      />
-                      <Badge className="absolute top-4 left-4 bg-[#374151] text-white">
-                        Alpha Fortaleza
-                      </Badge>
-                    </div>
-                    <CardContent className="card-mobile">
-                      <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-[#374151] mb-2">Casa Moderna com Piscina</h3>
-                      <p className="text-base sm:text-lg md:text-xl text-[#9ca3af]">
-                        Projeto residencial de alto padrão com acabamentos sofisticados e integração perfeita entre
-                        ambientes internos e externos.
-                      </p>
-                    </CardContent>
-                  </Card>
-                </ScrollAnimation>
+                {!selectedRegion ? (
+                  // Exibir cards de regiões
+                  <>
+                     <ScrollAnimation animation="scale" delay={200}>
+                       <Card 
+                         className="overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-2 cursor-pointer"
+                         onClick={() => setSelectedRegion("Fortaleza")}
+                       >
+                         <div className="relative">
+                           <Image
+                             src="/imagens/Fortaleza.jpeg"
+                             alt="Fortaleza"
+                             width={400}
+                             height={300}
+                             className="w-full h-48 sm:h-56 object-cover"
+                           />
+                           <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+                             <span className="text-white text-2xl sm:text-3xl font-bold">Fortaleza</span>
+                           </div>
+                         </div>
+                         <CardContent className="card-mobile text-center">
+                           <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-[#374151] mb-2">Fortaleza</h3>
+                           <p className="text-base sm:text-lg md:text-xl text-[#9ca3af]">
+                             Projetos realizados na capital cearense
+                           </p>
+                         </CardContent>
+                       </Card>
+                     </ScrollAnimation>
 
-                <ScrollAnimation animation="scale" delay={400}>
-                  <Card className="overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
-                    <div className="relative">
-                      <Image
-                        src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-6bTeRyjkDXhMj73Q5oxY09bIuZDR3K.png"
-                        alt="Projeto Terras Alphaville"
-                        width={400}
-                        height={300}
-                        className="w-full h-48 sm:h-56 object-cover"
-                      />
-                      <Badge className="absolute top-4 left-4 bg-[#374151] text-white">
-                        Terras Alphaville
-                      </Badge>
-                    </div>
-                    <CardContent className="card-mobile">
-                      <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-[#374151] mb-2">Reforma Completa</h3>
-                      <p className="text-base sm:text-lg md:text-xl text-[#9ca3af]">
-                        Transformação completa de residência com foco em modernidade e funcionalidade, mantendo a
-                        essência do projeto original.
-                      </p>
-                    </CardContent>
-                  </Card>
-                </ScrollAnimation>
+                     <ScrollAnimation animation="scale" delay={400}>
+                       <Card 
+                         className="overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-2 cursor-pointer"
+                         onClick={() => setSelectedRegion("Eusebio")}
+                       >
+                         <div className="relative">
+                           <Image
+                             src="/imagens/Eusebio.jpg"
+                             alt="Eusebio"
+                             width={400}
+                             height={300}
+                             className="w-full h-48 sm:h-56 object-cover"
+                           />
+                           <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+                             <span className="text-white text-2xl sm:text-3xl font-bold">Eusebio</span>
+                           </div>
+                         </div>
+                         <CardContent className="card-mobile text-center">
+                           <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-[#374151] mb-2">Eusebio</h3>
+                           <p className="text-base sm:text-lg md:text-xl text-[#9ca3af]">
+                             Projetos realizados em Eusebio
+                           </p>
+                         </CardContent>
+                       </Card>
+                     </ScrollAnimation>
 
-                <ScrollAnimation animation="scale" delay={600}>
-                  <Card className="overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
-                    <div className="relative">
-                      <Image
-                        src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-XScuQotuIsktEqkMGEfCMFa8Z84dl4.png"
-                        alt="Projeto Cidade Alpha"
-                        width={400}
-                        height={300}
-                        className="w-full h-48 sm:h-56 object-cover"
-                      />
-                      <Badge className="absolute top-4 left-4 bg-[#374151] text-white">
-                        Cidade Alpha
-                      </Badge>
+                     <ScrollAnimation animation="scale" delay={600}>
+                       <Card 
+                         className="overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-2 cursor-pointer"
+                         onClick={() => setSelectedRegion("Regiões diversas")}
+                       >
+                         <div className="relative">
+                           <Image
+                             src="/imagens/RegioesDiv.jpg"
+                             alt="Regiões diversas"
+                             width={400}
+                             height={300}
+                             className="w-full h-48 sm:h-56 object-cover"
+                           />
+                           <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+                             <span className="text-white text-2xl sm:text-3xl font-bold">Regiões diversas</span>
+                           </div>
+                         </div>
+                         <CardContent className="card-mobile text-center">
+                           <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-[#374151] mb-2">Regiões diversas</h3>
+                           <p className="text-base sm:text-lg md:text-xl text-[#9ca3af]">
+                             Projetos realizados em outras regiões
+                           </p>
+                         </CardContent>
+                       </Card>
+                     </ScrollAnimation>
+                  </>
+                ) : (
+                  // Exibir projetos da região selecionada
+                  <>
+                    <div className="col-span-full mb-6">
+                      <div className="flex items-center justify-center gap-4">
+                        <Button
+                          variant="outline"
+                          onClick={() => setSelectedRegion(null)}
+                          className="btn-mobile"
+                        >
+                          ← Voltar às regiões
+                        </Button>
+                        <h3 className="text-xl sm:text-2xl font-bold text-[#374151]">
+                          Projetos em {selectedRegion}
+                        </h3>
+                      </div>
                     </div>
-                    <CardContent className="card-mobile">
-                      <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-[#374151] mb-2">Ampliação Residencial</h3>
-                      <p className="text-base sm:text-lg md:text-xl text-[#9ca3af]">
-                        Projeto de ampliação que harmoniza perfeitamente com a arquitetura existente, criando espaços
-                        adicionais sem comprometer o design original.
-                      </p>
-                    </CardContent>
-                  </Card>
-                </ScrollAnimation>
+                    {projectsByRegion[selectedRegion as keyof typeof projectsByRegion]?.map((project, index) => (
+                      <ScrollAnimation key={project.id} animation="scale" delay={200 + (index * 200)}>
+                        <Card className="overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
+                          <div className="relative">
+                            <Image
+                              src={project.image}
+                              alt={project.title}
+                              width={400}
+                              height={300}
+                              className="w-full h-48 sm:h-56 object-cover"
+                            />
+                            <Badge className="absolute top-4 left-4 bg-[#374151] text-white">
+                              {project.badge}
+                            </Badge>
+                          </div>
+                          <CardContent className="card-mobile">
+                            <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-[#374151] mb-2">{project.title}</h3>
+                            <p className="text-base sm:text-lg md:text-xl text-[#9ca3af]">
+                              {project.description}
+                            </p>
+                          </CardContent>
+                        </Card>
+                      </ScrollAnimation>
+                    ))}
+                  </>
+                )}
               </>
             ) : (
               <div className="col-span-full">
@@ -378,7 +469,7 @@ export default function HomePage() {
                           </div>
                           <h4 className="font-semibold text-[#374151] mb-2">Planejamento</h4>
                           <p className="text-sm text-[#9ca3af]">
-                            Análise detalhada do projeto e cronograma de execução
+                            Análise detalhada do projeto e cronograma de execução.
                           </p>
                         </div>
                         <div className="text-center">
@@ -387,7 +478,7 @@ export default function HomePage() {
                           </div>
                           <h4 className="font-semibold text-[#374151] mb-2">Execução</h4>
                           <p className="text-sm text-[#9ca3af]">
-                            Trabalho com equipe especializada e materiais de qualidade
+                            Trabalho com equipe especializada e materiais de qualidade.
                           </p>
                         </div>
                         <div className="text-center">
@@ -396,7 +487,7 @@ export default function HomePage() {
                           </div>
                           <h4 className="font-semibold text-[#374151] mb-2">Acompanhamento</h4>
                           <p className="text-sm text-[#9ca3af]">
-                            Supervisão constante e comunicação com o cliente
+                            Supervisão constante e comunicação com o cliente.
                           </p>
                         </div>
                         <div className="text-center">
@@ -405,7 +496,7 @@ export default function HomePage() {
                           </div>
                           <h4 className="font-semibold text-[#374151] mb-2">Entrega</h4>
                           <p className="text-sm text-[#9ca3af]">
-                            Finalização com qualidade e suporte pós-obra
+                            Finalização com qualidade e suporte pós-obra.
                           </p>
                         </div>
                       </div>
@@ -423,7 +514,7 @@ export default function HomePage() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <ScrollAnimation animation="fade-up" className="text-center mb-12 sm:mb-16">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#374151] mb-4">Depoimentos de Clientes</h2>
-            <p className="text-lg sm:text-xl md:text-2xl text-[#9ca3af]">O que nossos clientes dizem sobre nós</p>
+            <p className="text-lg sm:text-xl md:text-2xl text-[#9ca3af]">O que nossos clientes dizem sobre nós.</p>
           </ScrollAnimation>
 
           <div className="grid grid-mobile">
@@ -435,7 +526,7 @@ export default function HomePage() {
                       <span className="text-white font-bold text-lg">M</span>
                     </div>
                     <div>
-                      <h4 className="font-semibold text-[#374151]">Maria Silva</h4>
+                      <h4 className="font-semibold text-[#374151]">Júlia Demétrio</h4>
                       <p className="text-sm text-[#9ca3af]">Alpha Fortaleza</p>
                     </div>
                   </div>
@@ -455,7 +546,7 @@ export default function HomePage() {
                       <span className="text-white font-bold text-lg">J</span>
                     </div>
                     <div>
-                      <h4 className="font-semibold text-[#374151]">João Santos</h4>
+                      <h4 className="font-semibold text-[#374151]">Everton Maia</h4>
                       <p className="text-sm text-[#9ca3af]">Terras Alphaville</p>
                     </div>
                   </div>
@@ -475,7 +566,7 @@ export default function HomePage() {
                       <span className="text-white font-bold text-lg">A</span>
                     </div>
                     <div>
-                      <h4 className="font-semibold text-[#374151]">Ana Costa</h4>
+                      <h4 className="font-semibold text-[#374151]">Nina Machado</h4>
                       <p className="text-sm text-[#9ca3af]">Cidade Alpha</p>
                     </div>
                   </div>
@@ -495,7 +586,7 @@ export default function HomePage() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <ScrollAnimation animation="fade-up" className="text-center mb-12 sm:mb-16">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#374151] mb-4">Entre em Contato</h2>
-            <p className="text-lg sm:text-xl md:text-2xl text-[#9ca3af]">Vamos transformar seu projeto em realidade</p>
+            <p className="text-lg sm:text-xl md:text-2xl text-[#9ca3af]">Vamos transformar seu projeto em realidade.</p>
           </ScrollAnimation>
 
           <div className="grid grid-mobile-2 gap-8 lg:gap-12">
