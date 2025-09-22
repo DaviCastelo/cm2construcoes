@@ -97,6 +97,22 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="//wa.me" />
         <link rel="dns-prefetch" href="//instagram.com" />
         
+        {/* Google Tag Manager */}
+        <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17552993084"></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'AW-17552993084');
+              
+              // Tornar gtag disponível globalmente
+              window.gtag = gtag;
+            `
+          }}
+        />
+        
         {/* Structured Data */}
         <script
           type="application/ld+json"
@@ -107,7 +123,7 @@ export default function RootLayout({
               "name": "CM² Construções",
               "description": "Empresa especializada em construções e reformas de alto padrão no Ceará",
               "url": "https://cm2construcoes.com.br",
-              "telephone": "+5585999733454",
+              "telephone": "+558594264434",
               "address": {
                 "@type": "PostalAddress",
                 "addressLocality": "Fortaleza",
@@ -123,7 +139,7 @@ export default function RootLayout({
               "priceRange": "$$",
               "image": "/imagens/logocm2.png",
               "sameAs": [
-                "https://instagram.com/cm2construcoes"
+                "https://www.instagram.com/cm2construcoes?igsh=bm9kM2oxYzdhenVy"
               ]
             })
           }}

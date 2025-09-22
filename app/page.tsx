@@ -16,7 +16,7 @@ import { ScrollToTop } from "@/components/ui/scroll-to-top"
 
 export default function HomePage() {
   const [showProcesso, setShowProcesso] = useState(false)
-  const [selectedRegion, setSelectedRegion] = useState<string | null>(null)
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
   const [isMounted, setIsMounted] = useState(false)
   const [formData, setFormData] = useState({
     nome: "",
@@ -25,9 +25,9 @@ export default function HomePage() {
     mensagem: "",
   })
 
-  // Dados dos projetos organizados por região
-  const projectsByRegion = {
-    "Fortaleza": [
+  // Dados dos projetos organizados por categoria
+  const projectsByCategory = {
+    "802 (C&F)": [
       {
         id: 1,
         title: "Casa Moderna com Piscina",
@@ -36,7 +36,7 @@ export default function HomePage() {
         badge: "Alpha Fortaleza"
       }
     ],
-    "Eusebio": [
+    "1701 (F&S)": [
       {
         id: 2,
         title: "Ampliação Residencial",
@@ -45,13 +45,22 @@ export default function HomePage() {
         badge: "Cidade Alpha"
       }
     ],
-    "Regiões diversas": [
+    "2302 (A&D)": [
       {
         id: 3,
         title: "Reforma Completa",
         description: "Transformação completa de residência com foco em modernidade e funcionalidade, mantendo a essência do projeto original.",
         image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-6bTeRyjkDXhMj73Q5oxY09bIuZDR3K.png",
         badge: "Terras Alphaville"
+      }
+    ],
+    "3802 (A&M)": [
+      {
+        id: 4,
+        title: "Apartamento de Alto Padrão",
+        description: "Projeto de apartamento com design moderno e funcional, otimizando cada espaço para máxima eficiência e conforto.",
+        image: "/imagens/IMG_1252 (1).png",
+        badge: "Apartamento de Alto Padrão"
       }
     ]
   }
@@ -61,9 +70,19 @@ export default function HomePage() {
     setIsMounted(true)
   }, [])
 
-  const handleWhatsAppMessage = (message: string) => {
-    const phoneNumber = "5585999733454" // Número principal
+  const handleWhatsAppMessage = (message: string, buttonType: string = 'whatsapp') => {
+    const phoneNumber = "558594264434" // Número principal
     const encodedMessage = encodeURIComponent(message)
+    
+    // Rastrear evento no Google Tag Manager
+    if (typeof window !== 'undefined' && window.gtag) {
+      window.gtag('event', 'click', {
+        event_category: 'contact',
+        event_label: buttonType,
+        value: 1
+      })
+    }
+    
     window.open(`https://wa.me/${phoneNumber}?text=${encodedMessage}`, "_blank")
   }
 
@@ -75,7 +94,16 @@ export default function HomePage() {
 *E-mail:* ${data.email}
 *Mensagem:* ${data.mensagem}`
 
-    handleWhatsAppMessage(message)
+    // Rastrear envio do formulário
+    if (typeof window !== 'undefined' && window.gtag) {
+      window.gtag('event', 'form_submit', {
+        event_category: 'contact',
+        event_label: 'contact_form',
+        value: 1
+      })
+    }
+
+    handleWhatsAppMessage(message, 'contact_form')
     
     // Reset form
     setFormData({
@@ -158,13 +186,13 @@ export default function HomePage() {
           </nav>
           <div className="flex items-center space-x-2 sm:space-x-4">
             <Button
-              onClick={() => handleWhatsAppMessage("Olá! Gostaria de solicitar um orçamento para meu projeto.")}
+              onClick={() => handleWhatsAppMessage("Olá! Gostaria de solicitar um orçamento para meu projeto.", "header_button")}
               className="hidden md:inline-flex bg-[#374151] hover:bg-[#374151] text-white transition-colors text-sm px-4 py-2 lg:px-6 lg:py-3"
             >
               <span className="hidden lg:inline">SOLICITAR ORÇAMENTO</span>
               <span className="lg:hidden">ORÇAMENTO</span>
             </Button>
-            <MobileMenu onWhatsAppClick={() => handleWhatsAppMessage("Olá! Gostaria de solicitar um orçamento para meu projeto.")} />
+            <MobileMenu onWhatsAppClick={() => handleWhatsAppMessage("Olá! Gostaria de solicitar um orçamento para meu projeto.", "mobile_menu")} />
           </div>
         </div>
       </header>
@@ -189,12 +217,12 @@ export default function HomePage() {
           </ScrollAnimation>
           <ScrollAnimation animation="fade-up" delay={200}>
             <p className="text-lg sm:text-xl md:text-2xl mb-6 sm:mb-8 text-white/90 leading-relaxed max-w-3xl mx-auto">
-              Transformamos espaços com excelência e inovação, criando ambientes que inspiram e duram.
+              Criamos ambientes que inspiram com durabilidade.
             </p>
           </ScrollAnimation>
           <ScrollAnimation animation="fade-up" delay={400}>
             <Button
-              onClick={() => handleWhatsAppMessage("Olá! Gostaria de falar com um especialista sobre meu projeto.")}
+              onClick={() => handleWhatsAppMessage("Olá! Gostaria de falar com um especialista sobre meu projeto.", "hero_button")}
               className="btn-mobile-large bg-[#374151] hover:bg-[#374151] text-white transition-colors"
             >
               FALE COM O NOSSO TIME
@@ -307,7 +335,7 @@ export default function HomePage() {
                 variant={showProcesso ? "default" : "outline"}
                 onClick={() => {
                   setShowProcesso(false)
-                  setSelectedRegion(null)
+                  setSelectedCategory(null)
                 }}
                 className="btn-mobile sm:mr-4"
               >
@@ -317,7 +345,7 @@ export default function HomePage() {
                 variant={showProcesso ? "outline" : "default"}
                 onClick={() => {
                   setShowProcesso(true)
-                  setSelectedRegion(null)
+                  setSelectedCategory(null)
                 }}
                 className="btn-mobile"
               >
@@ -329,105 +357,103 @@ export default function HomePage() {
           <div className="grid grid-mobile">
             {!showProcesso ? (
               <>
-                {!selectedRegion ? (
-                  // Exibir cards de regiões
+                {!selectedCategory ? (
+                  // Exibir cards de categorias
                   <>
-                     <ScrollAnimation animation="scale" delay={200}>
-                       <Card 
-                         className="overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-2 cursor-pointer"
-                         onClick={() => setSelectedRegion("Fortaleza")}
-                       >
-                         <div className="relative">
-                           <Image
-                             src="/imagens/Fortaleza.jpeg"
-                             alt="Fortaleza"
-                             width={400}
-                             height={300}
-                             className="w-full h-48 sm:h-56 object-cover"
-                           />
-                           <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-                             <span className="text-white text-2xl sm:text-3xl font-bold">Fortaleza</span>
-                           </div>
-                         </div>
-                         <CardContent className="card-mobile text-center">
-                           <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-[#374151] mb-2">Fortaleza</h3>
-                           <p className="text-base sm:text-lg md:text-xl text-[#9ca3af]">
-                             Projetos realizados na capital cearense
-                           </p>
-                         </CardContent>
-                       </Card>
-                     </ScrollAnimation>
+                    <ScrollAnimation animation="scale" delay={200}>
+                      <Card 
+                        className="overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-2 cursor-pointer"
+                        onClick={() => setSelectedCategory("802 (C&F)")}
+                      >
+                        <div className="relative">
+                          <div className="w-full h-48 sm:h-56 bg-gradient-to-br from-[#374151] to-[#6b7280] flex items-center justify-center">
+                            <span className="text-white text-2xl sm:text-3xl font-bold">802 (C&F)</span>
+                          </div>
+                        </div>
+                        <CardContent className="card-mobile text-center">
+                          <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-[#374151] mb-2">802 (C&F)</h3>
+                          <p className="text-base sm:text-lg md:text-xl text-[#9ca3af]">
+                            Projetos de Construção e Fundação
+                          </p>
+                        </CardContent>
+                      </Card>
+                    </ScrollAnimation>
 
-                     <ScrollAnimation animation="scale" delay={400}>
-                       <Card 
-                         className="overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-2 cursor-pointer"
-                         onClick={() => setSelectedRegion("Eusebio")}
-                       >
-                         <div className="relative">
-                           <Image
-                             src="/imagens/Eusebio.jpg"
-                             alt="Eusebio"
-                             width={400}
-                             height={300}
-                             className="w-full h-48 sm:h-56 object-cover"
-                           />
-                           <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-                             <span className="text-white text-2xl sm:text-3xl font-bold">Eusebio</span>
-                           </div>
-                         </div>
-                         <CardContent className="card-mobile text-center">
-                           <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-[#374151] mb-2">Eusebio</h3>
-                           <p className="text-base sm:text-lg md:text-xl text-[#9ca3af]">
-                             Projetos realizados em Eusebio
-                           </p>
-                         </CardContent>
-                       </Card>
-                     </ScrollAnimation>
+                    <ScrollAnimation animation="scale" delay={400}>
+                      <Card 
+                        className="overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-2 cursor-pointer"
+                        onClick={() => setSelectedCategory("1701 (F&S)")}
+                      >
+                        <div className="relative">
+                          <div className="w-full h-48 sm:h-56 bg-gradient-to-br from-[#374151] to-[#6b7280] flex items-center justify-center">
+                            <span className="text-white text-2xl sm:text-3xl font-bold">1701 (F&S)</span>
+                          </div>
+                        </div>
+                        <CardContent className="card-mobile text-center">
+                          <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-[#374151] mb-2">1701 (F&S)</h3>
+                          <p className="text-base sm:text-lg md:text-xl text-[#9ca3af]">
+                            Projetos de Financiamento e Suporte
+                          </p>
+                        </CardContent>
+                      </Card>
+                    </ScrollAnimation>
 
-                     <ScrollAnimation animation="scale" delay={600}>
-                       <Card 
-                         className="overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-2 cursor-pointer"
-                         onClick={() => setSelectedRegion("Regiões diversas")}
-                       >
-                         <div className="relative">
-                           <Image
-                             src="/imagens/RegioesDiv.jpg"
-                             alt="Regiões diversas"
-                             width={400}
-                             height={300}
-                             className="w-full h-48 sm:h-56 object-cover"
-                           />
-                           <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-                             <span className="text-white text-2xl sm:text-3xl font-bold">Regiões diversas</span>
-                           </div>
-                         </div>
-                         <CardContent className="card-mobile text-center">
-                           <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-[#374151] mb-2">Regiões diversas</h3>
-                           <p className="text-base sm:text-lg md:text-xl text-[#9ca3af]">
-                             Projetos realizados em outras regiões
-                           </p>
-                         </CardContent>
-                       </Card>
-                     </ScrollAnimation>
+                    <ScrollAnimation animation="scale" delay={600}>
+                      <Card 
+                        className="overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-2 cursor-pointer"
+                        onClick={() => setSelectedCategory("2302 (A&D)")}
+                      >
+                        <div className="relative">
+                          <div className="w-full h-48 sm:h-56 bg-gradient-to-br from-[#374151] to-[#6b7280] flex items-center justify-center">
+                            <span className="text-white text-2xl sm:text-3xl font-bold">2302 (A&D)</span>
+                          </div>
+                        </div>
+                        <CardContent className="card-mobile text-center">
+                          <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-[#374151] mb-2">2302 (A&D)</h3>
+                          <p className="text-base sm:text-lg md:text-xl text-[#9ca3af]">
+                            Projetos de Arquitetura e Design
+                          </p>
+                        </CardContent>
+                      </Card>
+                    </ScrollAnimation>
+
+                    <ScrollAnimation animation="scale" delay={800}>
+                      <Card 
+                        className="overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-2 cursor-pointer"
+                        onClick={() => setSelectedCategory("3802 (A&M)")}
+                      >
+                        <div className="relative">
+                          <div className="w-full h-48 sm:h-56 bg-gradient-to-br from-[#374151] to-[#6b7280] flex items-center justify-center">
+                            <span className="text-white text-2xl sm:text-3xl font-bold">3802 (A&M)</span>
+                          </div>
+                        </div>
+                        <CardContent className="card-mobile text-center">
+                          <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-[#374151] mb-2">3802 (A&M)</h3>
+                          <p className="text-base sm:text-lg md:text-xl text-[#9ca3af]">
+                            Projetos de Administração e Manutenção
+                          </p>
+                        </CardContent>
+                      </Card>
+                    </ScrollAnimation>
                   </>
                 ) : (
-                  // Exibir projetos da região selecionada
+                  // Exibir projetos da categoria selecionada
                   <>
                     <div className="col-span-full mb-6">
                       <div className="flex items-center justify-center gap-4">
                         <Button
                           variant="outline"
-                          onClick={() => setSelectedRegion(null)}
+                          onClick={() => setSelectedCategory(null)}
                           className="btn-mobile"
                         >
-                          ← Voltar às regiões
+                          ← Voltar às categorias
                         </Button>
                         <h3 className="text-xl sm:text-2xl font-bold text-[#374151]">
-                          Projetos em {selectedRegion}
+                          Projetos da categoria {selectedCategory}
                         </h3>
                       </div>
                     </div>
-                    {projectsByRegion[selectedRegion as keyof typeof projectsByRegion]?.map((project, index) => (
+                    {projectsByCategory[selectedCategory as keyof typeof projectsByCategory]?.map((project, index) => (
                       <ScrollAnimation key={project.id} animation="scale" delay={200 + (index * 200)}>
                         <Card className="overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
                           <div className="relative">
@@ -567,7 +593,7 @@ export default function HomePage() {
                     </div>
                     <div>
                       <h4 className="font-semibold text-[#374151]">Nina Machado</h4>
-                      <p className="text-sm text-[#9ca3af]">Cidade Alpha</p>
+                      <p className="text-sm text-[#9ca3af]">Apartamento de Alto Padrão</p>
                     </div>
                   </div>
                   <p className="text-base sm:text-lg md:text-xl text-[#9ca3af] italic">
@@ -598,35 +624,28 @@ export default function HomePage() {
                     <Phone className="w-6 h-6 text-[#374151] mr-4 flex-shrink-0" />
                     <div>
                       <p className="font-semibold text-[#374151]">Telefone</p>
-                      <p className="text-[#9ca3af]">(85) 99973-3454</p>
+                      <p className="text-[#9ca3af]">(85) 9426-4434</p>
                     </div>
                   </div>
                   <div className="flex items-center">
                     <MessageCircle className="w-6 h-6 text-[#374151] mr-4 flex-shrink-0" />
                     <div>
                       <p className="font-semibold text-[#374151]">WhatsApp</p>
-                      <p className="text-[#9ca3af]">(85) 99973-3454</p>
+                      <p className="text-[#9ca3af]">(85) 9426-4434</p>
                     </div>
                   </div>
                   <div className="flex items-center">
                     <Instagram className="w-6 h-6 text-[#374151] mr-4 flex-shrink-0" />
                     <div>
                       <p className="font-semibold text-[#374151]">Instagram</p>
-                      <a
-                        href="https://instagram.com/cm2construcoes"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-white hover:underline"
-                      >
-                        @cm2construcoes
-                      </a>
+                      <p className="text-[#9ca3af]">@cm2construcoes</p>
                     </div>
                   </div>
                 </div>
 
                 <div className="mt-8">
                   <Button
-                    onClick={() => handleWhatsAppMessage("Olá! Gostaria de falar com um especialista sobre meu projeto.")}
+                    onClick={() => handleWhatsAppMessage("Olá! Gostaria de falar com um especialista sobre meu projeto.", "contact_section_button")}
                     className="btn-mobile bg-[#374151] hover:bg-[#374151] text-white"
                   >
                     FALE COM UM ESPECIALISTA
@@ -730,11 +749,11 @@ export default function HomePage() {
             <div>
               <h4 className="font-semibold mb-4">Contato</h4>
               <div className="space-y-2 text-white text-sm sm:text-base">
-                <p>(85) 99973-3454</p>
+                <p>(85) 9426-4434</p>
                 <p>contato@cm2construcoes.com.br</p>
                 <div className="flex space-x-4 mt-4">
                   <a
-                    href="https://instagram.com/cm2construcoes"
+                    href="https://www.instagram.com/cm2construcoes?igsh=bm9kM2oxYzdhenVy"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-white hover:text-[#9ca3af] transition-colors"
