@@ -75,8 +75,9 @@ export default function HomePage() {
     const encodedMessage = encodeURIComponent(message)
     
     // Rastrear evento no Google Tag Manager
-    if (typeof window !== 'undefined' && window.gtag) {
-      window.gtag('event', 'click', {
+    if (typeof window !== 'undefined' && (window as any).dataLayer) {
+      (window as any).dataLayer.push({
+        event: 'button_click',
         event_category: 'contact',
         event_label: buttonType,
         value: 1
@@ -95,8 +96,9 @@ export default function HomePage() {
 *Mensagem:* ${data.mensagem}`
 
     // Rastrear envio do formulário
-    if (typeof window !== 'undefined' && window.gtag) {
-      window.gtag('event', 'form_submit', {
+    if (typeof window !== 'undefined' && (window as any).dataLayer) {
+      (window as any).dataLayer.push({
+        event: 'form_submit',
         event_category: 'contact',
         event_label: 'contact_form',
         value: 1
