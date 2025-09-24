@@ -13,6 +13,7 @@ import { ScrollAnimation } from "@/components/ui/scroll-animation"
 import { FormValidation, ValidatedInput } from "@/components/ui/form-validation"
 import { MobileMenu } from "@/components/ui/mobile-menu"
 import { ScrollToTop } from "@/components/ui/scroll-to-top"
+import { trackCompleteConversion, CONVERSION_TYPES, EVENT_CATEGORIES } from "@/lib/conversion-tracking"
 
 export default function HomePage() {
   const [showProcesso, setShowProcesso] = useState(false)
@@ -74,15 +75,13 @@ export default function HomePage() {
     const phoneNumber = "558594264434" // Número principal
     const encodedMessage = encodeURIComponent(message)
     
-    // Rastrear evento no Google Tag Manager
-    if (typeof window !== 'undefined' && (window as any).dataLayer) {
-      (window as any).dataLayer.push({
-        event: 'button_click',
-        event_category: 'contact',
-        event_label: buttonType,
-        value: 1
-      })
-    }
+    // Rastrear conversão completa
+    trackCompleteConversion(
+      CONVERSION_TYPES.WHATSAPP_CLICK,
+      EVENT_CATEGORIES.CONTACT,
+      buttonType,
+      1
+    )
     
     window.open(`https://wa.me/${phoneNumber}?text=${encodedMessage}`, "_blank")
   }
@@ -95,15 +94,13 @@ export default function HomePage() {
 *E-mail:* ${data.email}
 *Mensagem:* ${data.mensagem}`
 
-    // Rastrear envio do formulário
-    if (typeof window !== 'undefined' && (window as any).dataLayer) {
-      (window as any).dataLayer.push({
-        event: 'form_submit',
-        event_category: 'contact',
-        event_label: 'contact_form',
-        value: 1
-      })
-    }
+    // Rastrear conversão completa do formulário
+    trackCompleteConversion(
+      CONVERSION_TYPES.FORM_SUBMIT,
+      EVENT_CATEGORIES.CONTACT,
+      'contact_form',
+      1
+    )
 
     handleWhatsAppMessage(message, 'contact_form')
     
